@@ -8,7 +8,7 @@
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<DebugType>none</DebugType>
 		<Optimize>True</Optimize>
-		<BaseIntermediateOutputPath>$(SolutionDir)obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+		<BaseIntermediateOutputPath>$(SolutionDir)bin\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
 		<OutputPath>$(SolutionDir)\bin\$(Configuration)\$(MSBuildProjectName)\</OutputPath>
     </PropertyGroup>
 	
