@@ -1,5 +1,8 @@
 ﻿using HarmonyLib;
 using MoreInfo.Mod;
+
+using System;
+
 using UnityModManagerNet;
 
 namespace Leader
@@ -10,10 +13,18 @@ namespace Leader
 	public static class Main
 	{
 		private static Plugin? _mod;
+		private static Harmony? _harmony;
 
 		private static bool Unload(UnityModManager.ModEntry modEntry)
 		{
-			_mod?.OnUnload(modEntry);
+			if(_mod != null)
+			{
+				_mod.OnUnload(modEntry);
+			}
+			else
+			{
+				_harmony?.UnpatchAll(modEntry.Info.Id);
+			}
 			return true;
 		}
 
@@ -21,10 +32,16 @@ namespace Leader
 		{
 			modEntry.OnUnload = Unload;
 
-			var harmony = new Harmony(modEntry.Info.Id);
-
-			_mod = new Plugin(modEntry, harmony);
-
+			try
+			{
+				_harmony = new Harmony(modEntry.Info.Id);
+				_mod = new Plugin(modEntry, _harmony);
+			}
+			catch(Exception ex)
+			{
+				modEntry.Logger.LogException(ex);
+				_harmony?.UnpatchAll(modEntry.Info.Id);
+			}
 			return true;
 		}
 	}
