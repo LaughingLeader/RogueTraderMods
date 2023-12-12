@@ -1,5 +1,5 @@
 <Project>
-	<PropertyGroup>
+    <PropertyGroup>
 		<TargetFramework>net472</TargetFramework>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
@@ -8,107 +8,22 @@
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<DebugType>none</DebugType>
 		<Optimize>True</Optimize>
+		<BaseIntermediateOutputPath>$(SolutionDir)obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
 		<OutputPath>$(SolutionDir)\bin\$(Configuration)\$(MSBuildProjectName)\</OutputPath>
-		<BaseIntermediateOutputPath>$(SolutionDir)\src\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
-	</PropertyGroup>
-
+    </PropertyGroup>
+	
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
 		<DebugType>full</DebugType>
 		<Optimize>False</Optimize>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PubliciseInputAssemblies Include="$(RoguePath)\WH40KRT_Data\Managed\Code.dll" />
-		<PubliciseInputAssemblies Include="$(RoguePath)\WH40KRT_Data\Managed\Owlcat.Runtime.UI.dll" />
-		<PubliciseInputAssemblies Include="$(UserProfile)\AppData\LocalLow\Owlcat Games\Warhammer 40000 Rogue Trader\UnityModManager\UnityModManager.dll" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.1.0">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		<PackageReference Include="Lib.Harmony" Version="2.2.2">
+			<Private>False</Private>
 		</PackageReference>
-	</ItemGroup>
-
-	<Target Name="Publicise" AfterTargets="BeforeBuild;Clean" Inputs="@(PubliciseInputAssemblies)" Outputs="$(SolutionDir)lib\%(PubliciseInputAssemblies.FileName)_public.dll;$(SolutionDir)lib\%(PubliciseInputAssemblies.FileName)_public.hash">
-		<MakeDir Directories="$(SolutionDir)lib/" />
-		<Publicise InputAssemblies="@(PubliciseInputAssemblies)" OutputPath="$(SolutionDir)lib/" PubliciseCompilerGenerated="true" />
-	</Target>
-
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<ItemGroup>
-			<FilesToMove Include="$(OutputPath)*.dll;$(OutputPath)*.pdb;$(OutputPath)*.json" />
-		</ItemGroup>
-		<Copy SourceFiles="@(FilesToMove)" DestinationFolder="$(UserProfile)\AppData\LocalLow\Owlcat Games\Warhammer 40000 Rogue Trader\UnityModManager\$(MSBuildProjectName)" OverwriteReadOnlyFiles="true" />
-	</Target>
-
-	<ItemGroup>
-		<!-- Main Wrath Assembly, Publicized -->
-		<Reference Include="$(SolutionDir)lib\*.dll">
-			<Private>False</Private>
-		</Reference>
-		<Reference Include="RogueTrader.GameCore">
-			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\RogueTrader.GameCore.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
-		<Reference Include="StatefulRandom">
-			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\StatefulRandom.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
-		<Reference Include="Kingmaker.PubSubSystem.Core.Interfaces">
-			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\Kingmaker.PubSubSystem.Core.Interfaces.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
-		<Reference Include="Kingmaker.EntitySystem.Stats.Base">
-			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\Kingmaker.EntitySystem.Stats.Base.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
-		<Reference Include="Kingmaker.UI.Models.Log.Enums">
-			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\Kingmaker.UI.Models.Log.Enums.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
-		<!-- UMM & Harmony -->
-		<Reference Include="0Harmony">
+		<!--<Reference Include="0Harmony">
 			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\0Harmony.dll</HintPath>
 			<Private>False</Private>
-		</Reference>
-		<Reference Include="Unity.TextMeshPro">
-			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\Unity.TextMeshPro.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
-		<Reference Include="UnityEngine.AnimationModule">
-			<SpecificVersion>False</SpecificVersion>
-			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
-		<Reference Include="UnityEngine.AssetBundleModule">
-			<SpecificVersion>False</SpecificVersion>
-			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
-		<Reference Include="UnityEngine.CoreModule">
-			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
-		<Reference Include="UnityEngine.ImageConversionModule">
-			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
-		<Reference Include="UnityEngine.IMGUIModule">
-			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
-		<Reference Include="UnityEngine.TextRenderingModule">
-			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
-		<Reference Include="UnityEngine.UI">
-			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\UnityEngine.UI.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
-		<Reference Include="UnityEngine.UIModule">
-			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\UnityEngine.UIModule.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
+		</Reference>-->
 	</ItemGroup>
 </Project>

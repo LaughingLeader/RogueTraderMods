@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.Build.NoTargets/3.3.0" DefaultTargets="Pack">
+	<PropertyGroup>
+		<RootNamespace>Leader</RootNamespace>
+		<OutputType>Library</OutputType>
+		<TargetFramework>net472</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<DebugSymbols>false</DebugSymbols>
+		<DebugType>none</DebugType>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<Description>Shared code across mods. This isn't an actual assembly.</Description>
+		<Copyright>Copyright © LaughingLeader 2023</Copyright>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="**\*.cs" Exclude="obj\**\*.*" />
+	</ItemGroup>
+</Project>
