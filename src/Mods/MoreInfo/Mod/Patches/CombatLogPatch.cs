@@ -96,12 +96,12 @@ namespace MoreInfo.Mod.Mod.Patches
 
 		private static void DebugInitiativeRoll(ref RuleRollInitiative __instance)
 		{
-			Plugin.Log($"[RuleRollInitiative] Result({__instance.Result}) Modifiers.Value({__instance.Modifiers.Value})");
+			Log.Info($"[RuleRollInitiative] Result({__instance.Result}) Modifiers.Value({__instance.Modifiers.Value})");
 		}
 		private static void DebugRollInitiative(ref MechanicEntity entity)
 		{
 			if (entity.Name != "Cassia") return;
-			Plugin.Log($"[RollInitiative] {entity.Name + ": " + PrintInitiative(entity)}");
+			Log.Info($"[RollInitiative] {entity.Name + ": " + PrintInitiative(entity)}");
 		}
 
 		private static bool FixApplyInitiative(MechanicEntity entity)
@@ -110,7 +110,7 @@ namespace MoreInfo.Mod.Mod.Patches
 			{
 				//Initiative initiative = entity.Initiative;
 				float value = entity.Initiative.Roll;
-				Plugin.Log($"[FixApplyInitiative] Roll({entity.Initiative.Roll}) => {value}");
+				Log.Info($"[FixApplyInitiative] Roll({entity.Initiative.Roll}) => {value}");
 				//initiative.Value = value;
 				entity.Initiative.Order = InitiativeHelper.CalculateOrder(entity);
 				return false;
@@ -121,13 +121,13 @@ namespace MoreInfo.Mod.Mod.Patches
 		private static void DebugApplyInitiative(ref MechanicEntity entity)
 		{
 			if (entity.Name != "Cassia") return;
-			Plugin.Log($"[ApplyInitiative] {entity.Name + ": " + PrintInitiative(entity)}");
+			Log.Info($"[ApplyInitiative] {entity.Name + ": " + PrintInitiative(entity)}");
 		}
 
 		private static void DebugUpdateBuffsInitiative(ref MechanicEntity entity)
 		{
 			if (entity.Name != "Cassia") return;
-			Plugin.Log($"[UpdateBuffsInitiative] {entity.Name + ": " + PrintInitiative(entity)}");
+			Log.Info($"[UpdateBuffsInitiative] {entity.Name + ": " + PrintInitiative(entity)}");
 		}
 	}
 }
