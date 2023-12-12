@@ -12,4 +12,11 @@
 	<ItemGroup>
 		<None Include="**\*.cs" Exclude="obj\**\*.*" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Main Assemblies Publicized -->
+		<Reference Include="$(SolutionDir)lib\*.dll">
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
 </Project>

@@ -5,8 +5,6 @@ using Kingmaker.UI.Models.Log.CombatLog_ThreadSystem.LogThreads.Common;
 using Kingmaker.UI.Models.Log.CombatLog_ThreadSystem.LogThreads.LifeEvents;
 using Kingmaker.UI.Models.Log.Enums;
 
-using MoreInfo.Mod;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +12,7 @@ using System.Reflection;
 
 using UnityEngine;
 
-namespace MoreInfo.Utils
+namespace Leader
 {
     public static class InGameLog
 	{
@@ -46,7 +44,7 @@ namespace MoreInfo.Utils
 			{
 				foreach(var thread in threads)
 				{
-					Plugin.Log($"[DebugDumpThreads:{logChannelType}] Thread({thread.GetType()})");
+					Log.Info($"[DebugDumpThreads:{logChannelType}] Thread({thread.GetType()})");
 				}
 			}
 		}

@@ -14,8 +14,6 @@ using Kingmaker.UnitLogic;
 
 using Leader;
 
-using MoreInfo.Utils;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
