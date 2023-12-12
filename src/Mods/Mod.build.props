@@ -1,7 +1,9 @@
 <Project>
 	<ItemGroup>
 		<!-- Compile code from Shared, without making a separate assembly -->
-		<Compile Include="$(SolutionDir)src\Shared\**\*.cs" Visible="false" />
+		<Compile Include="$(SolutionDir)src\Shared\**\*.cs" Visible="false">
+			<Link>$(SolutionDir)src\Shared\%(RecursiveDir)%(Filename)%(Extension)</Link>
+		</Compile>
 	</ItemGroup>
 	
 	<ItemGroup>
