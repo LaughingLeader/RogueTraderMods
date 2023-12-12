@@ -1,10 +1,7 @@
-﻿<Project Sdk="Microsoft.Build.NoTargets/3.3.0" DefaultTargets="Pack">
+﻿<Project Sdk="Microsoft.Build.NoTargets/3.3.0">
 	<PropertyGroup>
 		<RootNamespace>Leader</RootNamespace>
 		<OutputType>Library</OutputType>
-		<TargetFramework>net472</TargetFramework>
-		<LangVersion>latest</LangVersion>
-		<Nullable>enable</Nullable>
 		<DebugSymbols>false</DebugSymbols>
 		<DebugType>none</DebugType>
 		<IncludeBuildOutput>false</IncludeBuildOutput>
