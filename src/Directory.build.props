@@ -18,9 +18,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Lib.Harmony" Version="2.2.2">
-			<Private>False</Private>
-		</PackageReference>
+		<PackageReference Include="Lib.Harmony" Version="2.2.2" ExcludeAssets="runtime"/>
 		<!--<Reference Include="0Harmony">
 			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\0Harmony.dll</HintPath>
 			<Private>False</Private>
