@@ -86,7 +86,7 @@
 	</ItemGroup>
 	
 	<Target Name="Publicise"
-            AfterTargets="BeforeBuild;Clean"
+            AfterTargets="Clean"
             Inputs="@(PubliciseInputAssemblies)"
             Outputs="$(SolutionDir)lib\%(PubliciseInputAssemblies.FileName)_public.dll;$(SolutionDir)lib\%(PubliciseInputAssemblies.FileName)_public.hash">
 		<MakeDir Directories="$(SolutionDir)lib/" />
