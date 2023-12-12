@@ -4,7 +4,7 @@ using Leader;
 
 using System;
 
-namespace MoreInfo.Mod.Mod.Patches
+namespace MoreInfo.Mod.Patches
 {
 	public class ShowHiddenStatsPatch : IPatch
     {

@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 
 using Kingmaker;
+using Kingmaker.Code.UI.MVVM.VM.Tooltip.Templates;
+using Kingmaker.Code.UI.MVVM.VM.Tooltip.Utils;
 using Kingmaker.Controllers.Combat;
 using Kingmaker.Controllers.TurnBased;
 using Kingmaker.EntitySystem.Entities;
@@ -11,6 +13,7 @@ using Kingmaker.RuleSystem.Rules;
 using Kingmaker.UI.Models.Log.CombatLog_ThreadSystem;
 using Kingmaker.UI.Models.Log.CombatLog_ThreadSystem.LogThreads.Combat;
 using Kingmaker.UnitLogic;
+using Kingmaker.UnitLogic.Abilities;
 
 using Leader;
 
@@ -21,7 +24,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoreInfo.Mod.Mod.Patches
+namespace MoreInfo.Mod.Patches
 {
     public class CombatLogPatch : IPatch
     {
@@ -68,17 +71,23 @@ namespace MoreInfo.Mod.Mod.Patches
 			harmony.Unpatch(m_RollInitiative3, thisType.GetMethod(nameof(DebugUpdateBuffsInitiative)));*/
 		}
 
+		private static readonly string InitiativeMessage = "{0}: {1} ((AGI: {2}, PER: {3})";
+
 		//private static void OnInitiativeRollingDone(ref IEnumerable<MechanicEntity> newCombatants, ref bool relax)
 		private static void OnInitiativeRollingDone(ref List<MechanicEntity> ___m_JoinedThisTickEntities)
 		{
 			if (___m_JoinedThisTickEntities.Count > 0)
 			{
+				var tooltip = new TooltipTemplateGlossary("Initiative");
 				var thread = InGameLog.GetThread<UnitInitiativeLogThread>(LogChannelType.AnyCombat);
 				foreach (var entity in ___m_JoinedThisTickEntities.OrderByDescending(x => x.Initiative.Roll))
 				{
 					if (entity != null)
 					{
-						InGameLog.AddMessage(thread, $"{entity.Name} rolled initiative: {Math.Floor(entity.Initiative.Roll)}");
+						var agilityBonus = entity.GetStatOptional<ModifiableValueAttributeStat>(StatType.WarhammerAgility)?.WarhammerBonus ?? 0;
+						var perceptionBonus = entity.GetStatOptional<ModifiableValueAttributeStat>(StatType.WarhammerPerception)?.WarhammerBonus ?? 0;
+						var msg = String.Format(InitiativeMessage, entity.Name, Math.Floor(entity.Initiative.Roll), agilityBonus, perceptionBonus);
+						InGameLog.AddMessage(thread, msg, Kingmaker.UI.Models.Log.Enums.PrefixIcon.None, tooltip);
 					}
 				}
 			}
