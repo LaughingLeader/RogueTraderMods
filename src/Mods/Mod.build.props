@@ -79,6 +79,10 @@
 			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\UnityEngine.UIModule.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="StateHasher">
+			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\StateHasher.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
 	</ItemGroup>
 	
 	<ItemGroup>
