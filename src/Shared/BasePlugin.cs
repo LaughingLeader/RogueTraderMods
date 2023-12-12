@@ -59,6 +59,10 @@ namespace Leader
 					}
 				}
 			}
+			if(!anyEnabled)
+			{
+				Log.Error($"No patches found in namespace '{_patchesNamespace}'");
+			}
 			return anyEnabled;
 		}
 
