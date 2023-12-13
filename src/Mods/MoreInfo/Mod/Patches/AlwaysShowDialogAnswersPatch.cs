@@ -48,7 +48,7 @@ namespace MoreInfo.Mod.Patches
 			if (!Main.IsEnabled || !Main.Settings.ShowAllDialogOptions) return;
 			if (!__result && __instance != null)
 			{
-				if (!_shownOnceAnswers.Contains(__instance))
+				if (Main.Settings.IgnoreShowOnce || !_shownOnceAnswers.Contains(__instance))
 				{
 					__result = true;
 				}
