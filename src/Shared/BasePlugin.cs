@@ -7,6 +7,10 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
+using UnityModManagerNet;
+
+using static UnityModManagerNet.UnityModManager;
+
 namespace Leader
 {
 	public abstract class BasePlugin
@@ -18,6 +22,8 @@ namespace Leader
 		private readonly string _patchesNamespace;
 		private readonly List<PatchInstance> _patches = new();
 		private readonly Harmony _harmony;
+
+		public bool IsEnabled { get; private set; }
 
 		internal List<PatchInstance> Patches => _patches;
 		internal Harmony HarmonyInstance => _harmony;
@@ -79,10 +85,61 @@ namespace Leader
 			return anyDisabled;
 		}
 
-		public BasePlugin(Harmony harmony, string patchesNamespace)
+		protected virtual bool OnToggle(UnityModManager.ModEntry modEntry, bool value)
+		{
+			IsEnabled = value;
+			try
+			{
+				if (IsEnabled)
+				{
+					return ApplyPatches();
+				}
+				else
+				{
+					return DisablePatches();
+				}
+			}
+			catch (Exception ex)
+			{
+				Log.Exception(ex);
+			}
+			return false;
+		}
+
+		protected virtual bool OnUnload(ModEntry modEntry)
+		{
+			HarmonyInstance.UnpatchAll(modEntry.Info.Id);
+			Patches.Clear();
+			return true;
+		}
+
+		protected virtual void OnUpdate(ModEntry modEntry, float dt)
+		{
+
+		}
+
+		protected void ConfigureLog(ModEntry modEntry)
+		{
+			var log = modEntry.Logger;
+			Log.Configure(new LogCallbacks
+			{
+				Info = log.Log,
+				Warning = log.Warning,
+				Error = log.Error,
+				Exception = log.LogException,
+				Exception2 = log.LogException,
+				Critical = log.Critical,
+				NativeLog = log.NativeLog
+			});
+		}
+
+		public BasePlugin(ModEntry modEntry, Harmony harmony, string patchesNamespace)
 		{
 			_harmony = harmony;
 			_patchesNamespace = patchesNamespace;
+
+			modEntry.OnToggle = OnToggle;
+			modEntry.OnUpdate = OnUpdate;
 		}
 	}
 }
