@@ -20,8 +20,15 @@ namespace Leader
 		private static readonly Type _harmonyPatchType = typeof(HarmonyPatch);
 
 		private readonly string _patchesNamespace;
+		private readonly List<Type> _matchedPatchTypes = new List<Type>();
 		private readonly List<PatchInstance> _patches = new();
 		private readonly Harmony _harmony;
+		private readonly string _modId;
+
+		/// <summary>
+		/// Types that use the regular harmony attributes.
+		/// </summary>
+		private int _harmonyPatches = 0;
 
 		public bool IsEnabled { get; private set; }
 
@@ -40,28 +47,31 @@ namespace Leader
 		protected bool ApplyPatches()
 		{
 			var anyEnabled = false;
-			var patchTypes = Assembly.GetExecutingAssembly().GetTypes().Where(x => x.Namespace.StartsWith(_patchesNamespace));
-			foreach (var patchType in patchTypes)
+			if(_matchedPatchTypes.Count > 0)
 			{
-				if (_patcherType.IsAssignableFrom(patchType))
+				foreach (var patchType in _matchedPatchTypes)
 				{
-					var instance = (IPatch)Activator.CreateInstance(patchType);
-					if (instance != null && CanEnablePatch(instance, patchType))
+					if (_patcherType.IsAssignableFrom(patchType))
 					{
-						Log.Info($"Activating IPatcher patch {patchType.Name}");
-						instance.Enable(patchType, _harmony);
-						_patches.Add(new PatchInstance { PatchType = patchType, Instance = instance });
-						anyEnabled = true;
+						var instance = (IPatch)Activator.CreateInstance(patchType);
+						if (instance != null && CanEnablePatch(instance, patchType))
+						{
+							Log.Info($"Activating IPatcher patch {patchType.Name}");
+							instance.Enable(patchType, _harmony);
+							_patches.Add(new PatchInstance { PatchType = patchType, Instance = instance });
+							anyEnabled = true;
+						}
 					}
-				}
-				else if (patchType.GetCustomAttributes(true).Any(x => x.GetType() == _harmonyPatchType))
-				{
-					var processor = _harmony.CreateClassProcessor(patchType);
-					if (processor != null)
+					else if (patchType.GetCustomAttributes(true).Any(x => x.GetType() == _harmonyPatchType))
 					{
-						Log.Info($"Activating harmony patch {patchType.Name}");
-						processor.Patch();
-						anyEnabled = true;
+						var processor = _harmony.CreateClassProcessor(patchType);
+						if (processor != null)
+						{
+							Log.Info($"Activating harmony patch {patchType.Name}");
+							processor.Patch();
+							anyEnabled = true;
+							_harmonyPatches++;
+						}
 					}
 				}
 			}
@@ -82,10 +92,15 @@ namespace Leader
 				anyDisabled = true;
 			}
 			_patches.Clear();
+			if(_harmonyPatches > 0)
+			{
+				_harmony.UnpatchAll(_modId);
+				_harmonyPatches = 0;
+			}
 			return anyDisabled;
 		}
 
-		protected virtual bool OnToggle(UnityModManager.ModEntry modEntry, bool value)
+		protected virtual bool OnToggle(ModEntry modEntry, bool value)
 		{
 			IsEnabled = value;
 			try
@@ -137,9 +152,12 @@ namespace Leader
 		{
 			_harmony = harmony;
 			_patchesNamespace = patchesNamespace;
+			_modId = modEntry.Info.Id;
 
 			modEntry.OnToggle = OnToggle;
 			modEntry.OnUpdate = OnUpdate;
+
+			_matchedPatchTypes.AddRange(Assembly.GetExecutingAssembly().GetTypes().Where(x => x.Namespace.StartsWith(_patchesNamespace)));
 		}
 	}
 }
