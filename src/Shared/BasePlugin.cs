@@ -20,7 +20,7 @@ namespace Leader
 		private static readonly Type _harmonyPatchType = typeof(HarmonyPatch);
 
 		private readonly string _patchesNamespace;
-		private readonly List<Type> _matchedPatchTypes = new List<Type>();
+		private readonly List<Type> _matchedPatchTypes = new();
 		private readonly List<PatchInstance> _patches = new();
 		private readonly Harmony _harmony;
 		private readonly string _modId;
@@ -121,7 +121,12 @@ namespace Leader
 			return false;
 		}
 
-		protected virtual bool OnUnload(ModEntry modEntry)
+		/// <summary>
+		/// Called from Main, in case an error occurs.
+		/// </summary>
+		/// <param name="modEntry"></param>
+		/// <returns></returns>
+		internal virtual bool OnUnload(ModEntry modEntry)
 		{
 			HarmonyInstance.UnpatchAll(modEntry.Info.Id);
 			Patches.Clear();
@@ -153,6 +158,8 @@ namespace Leader
 			_harmony = harmony;
 			_patchesNamespace = patchesNamespace;
 			_modId = modEntry.Info.Id;
+
+			ConfigureLog(modEntry);
 
 			modEntry.OnToggle = OnToggle;
 			modEntry.OnUpdate = OnUpdate;
