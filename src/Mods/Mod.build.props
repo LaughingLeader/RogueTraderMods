@@ -40,6 +40,14 @@
 			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\Kingmaker.UI.Models.Log.Enums.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="Kingmaker.ElementsSystem.Interfaces">
+			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\Kingmaker.ElementsSystem.Interfaces.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Owlcat.Runtime.Core">
+			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\Owlcat.Runtime.Core.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
 		<!-- UMM  -->
 		<Reference Include="Unity.TextMeshPro">
 			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\Unity.TextMeshPro.dll</HintPath>
