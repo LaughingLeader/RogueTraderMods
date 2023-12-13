@@ -15,6 +15,9 @@ namespace Leader
 		private static Plugin? _mod;
 		private static Harmony? _harmony;
 
+		public static PluginSettings Settings => _mod!.Settings;
+		public static bool IsEnabled => _mod?.IsEnabled == true;
+
 		private static bool Unload(UnityModManager.ModEntry modEntry)
 		{
 			if(_mod != null)
