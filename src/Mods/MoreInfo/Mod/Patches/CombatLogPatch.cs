@@ -70,9 +70,10 @@ namespace MoreInfo.Mod.Patches
 				//InGameLog.AddMessage(thread, "Initiative Rolls:", PrefixIcon.RightArrow, tooltip);
 				foreach (var entity in ___m_JoinedThisTickEntities.OrderByDescending(x => x.Initiative.Roll))
 				{
-					if (entity != null)
+					if (entity != null && !entity.IsDeadOrUnconscious && entity.IsInCombat)
 					{
 						var name = LogHelper.GetEntityName(entity);
+						if (name == "<no name>") name = "Unknown";
 						var str = String.Format(InitiativeMessage, name, Math.Floor(entity.Initiative.Roll));
 						var message = new CombatLogMessage(str, Color.black, PrefixIcon.None, tooltip, true, unit: entity);
 						thread.AddMessage(message);
