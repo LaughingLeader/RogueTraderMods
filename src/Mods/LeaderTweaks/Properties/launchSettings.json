@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Game": {
+      "commandName": "Executable",
+      "executablePath": "%RoguePath%\\WH40KRT.exe",
+      "workingDirectory": "%RoguePath%"
+      "commandLineArgs": "--doorstop-mono-debug-enabled true",
+    }
+  }
+}

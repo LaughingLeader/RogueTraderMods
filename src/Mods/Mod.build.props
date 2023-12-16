@@ -48,6 +48,10 @@
 			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\Owlcat.Runtime.Core.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="Utility.Rounds">
+			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\Utility.Rounds.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
 		<!-- UMM  -->
 		<Reference Include="Unity.TextMeshPro">
 			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\Unity.TextMeshPro.dll</HintPath>
