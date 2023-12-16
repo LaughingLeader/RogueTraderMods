@@ -44,14 +44,14 @@ namespace LeaderTweaks.Mod
 		private void OnGUI(UnityModManager.ModEntry modEntry)
 		{
 			Settings.Draw(modEntry);
-			if(GUILayout.Button("Test"))
+			if(GUILayout.Button("Apply Buffs", GUILayout.ExpandWidth(false)))
 			{
 				foreach (var unit in Game.Instance.Player.Party)
 				{
 					BuffTweaks.ApplyCombatStartBuffs(unit);
 				}
 			}
-			if(GUILayout.Button("Remove Burning"))
+			if(GUILayout.Button("Remove Buffs", GUILayout.ExpandWidth(false)))
 			{
 				foreach(var unit in Game.Instance.Player.Party)
 				{

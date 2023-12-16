@@ -22,7 +22,8 @@ using System.Threading.Tasks;
 
 namespace LeaderTweaks.Mod.Patches
 {
-	[HarmonyPatch(typeof(HealthController), nameof(HealthController.HandleUnitStartTurn))]
+	//[HarmonyPatch(typeof(HealthController), nameof(HealthController.HandleUnitStartTurn))]
+	[HarmonyPatch]
 	public static class BuffTweaks
 	{
 		private static readonly string RelentlessBlazeFeature = "89723dbb70634201a1826c49482c152a";
@@ -68,14 +69,16 @@ namespace LeaderTweaks.Mod.Patches
 			}
 		}
 
-		public static void ApplyCombatStartBuffs(MechanicEntity entity)
+		public static void ApplyCombatStartBuffs(MechanicEntity? entity)
 		{
 			if (!_initialized) Init();
-			if (!_isValid) return;
+			if (!_isValid || entity == null) return;
 
-			if (!Game.Instance.IsSpaceCombat && entity?.IsInPlayerParty == true && entity is BaseUnitEntity unit)
+			//Log.Info($"[ApplyCombatStartBuffs] unit({entity.Name}) IsInPlayerParty({entity.IsInPlayerParty}) IsInCombat({entity.IsInCombat})");
+
+			if (!Game.Instance.IsSpaceCombat && entity.IsInPlayerParty == true && entity is BaseUnitEntity unit)
 			{
-				if(unit.Facts.Contains(blazeFeature))
+				if (Main.Settings.AutoRelentlessBlaze && unit.Facts.Contains(blazeFeature))
 				{
 					var duration = entity.IsInCombat ? CombatDuration : OutOfCombatDuration;
 
@@ -91,15 +94,30 @@ namespace LeaderTweaks.Mod.Patches
 			}
 		}
 
-		private static void Postfix()
+		[HarmonyPatch(typeof(TurnController), nameof(TurnController.TryRollInitiative)), HarmonyPostfix]		
+		private static void OnCombatStarted()
 		{
-			if (!Main.Settings.AutoRelentlessBlaze) return;
+			if (!Main.IsEnabled || Game.Instance.TurnController.CombatRound != 1) return;
+			foreach (var unit in Game.Instance.Player.Party)
+			{
+				if(unit.IsInCombat)
+				{
+					ApplyCombatStartBuffs(unit);
+				}
+			}
+		}
+
+		/*
+		[HarmonyPatch(typeof(HealthController), nameof(HealthController.HandleUnitStartTurn))]
+		private static void OnTurnStarted()
+		{
+			if (!Main.IsEnabled) return;
 			var entity = EventInvokerExtensions.MechanicEntity;
 			if (entity?.IsInCombat == true && Game.Instance.TurnController.CombatRound == 1)
 			{
 				ApplyCombatStartBuffs(entity);
 			}
-		}
+		}*/
 
 		/*[HarmonyPatch(typeof(TurnController), nameof(TurnController.NextRound))]
 		[HarmonyPostfix]
