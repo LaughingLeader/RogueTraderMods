@@ -14,6 +14,7 @@ namespace LeaderTweaks.Mod
 	{
 		[Header("Combat")]
 		[Draw("Relentless Blaze: Automatically Apply Burning")] public bool AutoRelentlessBlaze = false;
+		[Draw("Relentless Blaze: No Burning Damage")] public bool RelentlessBlazeBurningDealsZeroDamage = false;
 
 		public override void Save(UnityModManager.ModEntry modEntry)
 		{

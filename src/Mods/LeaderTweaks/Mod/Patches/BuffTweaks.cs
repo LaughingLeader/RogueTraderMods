@@ -7,9 +7,11 @@ using Kingmaker.Controllers;
 using Kingmaker.Controllers.TurnBased;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.PubSubSystem;
+using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Progression.Features;
 
 using Leader;
@@ -106,6 +108,35 @@ namespace LeaderTweaks.Mod.Patches
 				}
 			}
 		}
+
+		/* This is a prefix so log spam is avoided, since the original function sends out an event via Rulebook.Trigger(new RuleCalculateDamage), which reports the previous damage.
+		 */
+		[HarmonyPatch(typeof(ContextActionDealDamage), nameof(ContextActionDealDamage.DealHitPointsDamage)), HarmonyPrefix]		
+		private static bool OnBurningDamage(ContextActionDealDamage __instance, ref int __result)
+		{
+			if (!Main.IsEnabled || !Main.Settings.RelentlessBlazeBurningDealsZeroDamage) return true;
+			var guid = __instance.Owner?.AssetGuid;
+			if ((guid == WarpBurnBuff || guid == BurningBuff) && __instance.TargetEntity is BaseUnitEntity unit 
+				&& unit.Facts.Contains(blazeFeature) && unit.Buffs.Contains(orchestrateBuff))
+			{
+				__result = 0;
+				return false;
+			}
+			return true;
+		}
+
+		/*[HarmonyPatch(typeof(ContextActionDealDamage), nameof(ContextActionDealDamage.GetDamagePrediction)), HarmonyPostfix]		
+		private static void OnBurningDamagePrediction(AbilityExecutionContext context, MechanicEntity? target, ContextActionDealDamage __instance, ref DamagePredictionData __result)
+		{
+			if (!Main.IsEnabled || !Main.Settings.RelentlessBlazeBurningDealsZeroDamage) return;
+			var guid = __instance.Owner?.AssetGuid;
+			if ((guid == WarpBurnBuff || guid == BurningBuff) && target is BaseUnitEntity unit && unit.Facts.Contains(blazeFeature))
+			{
+				__result.MinDamage = 0;
+				__result.MaxDamage = 0;
+				__result.Penetration = 0;
+			}
+		}*/
 
 		/*
 		[HarmonyPatch(typeof(HealthController), nameof(HealthController.HandleUnitStartTurn))]
