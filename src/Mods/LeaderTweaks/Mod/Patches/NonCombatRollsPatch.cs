@@ -31,7 +31,7 @@ namespace LeaderTweaks.Mod.Patches
 
 			if (__instance.m_SourceCheck == null && CanAlterRoll(__instance.InitiatorUnit))
 			{
-				if(__instance.Initiator is MechanicEntity entity && GetStatVal(entity, __instance.m_StatType) + __instance.m_DifficultyClass < 0)
+				if(__instance.Initiator is MechanicEntity entity && GetStatVal(entity, __instance.m_StatType) + __instance.m_DifficultyClass <= 0)
 				{
 					__result = new RulePerformSkillCheck(__instance.Roller, __instance.m_StatType, 100)
 					{
@@ -57,7 +57,12 @@ namespace LeaderTweaks.Mod.Patches
 					{
 						__instance.m_Result = chanceRoll.Chance;
 					}
-					//Log.Info($"[RuleRollDice.Roll]: {new System.Diagnostics.StackTrace()}");
+#if DEBUG
+					else
+					{
+						Log.Info($"[RuleRollDice.Roll({chanceRoll.Chance})]: {new System.Diagnostics.StackTrace()}");
+					}
+#endif
 				}
 			}
 		}
