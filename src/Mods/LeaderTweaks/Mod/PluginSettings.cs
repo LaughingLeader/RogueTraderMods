@@ -16,6 +16,9 @@ namespace LeaderTweaks.Mod
 		[Draw("Relentless Blaze: Automatically Apply Burning")] public bool AutoRelentlessBlaze = false;
 		[Draw("Relentless Blaze: No Burning Damage")] public bool RelentlessBlazeBurningDealsZeroDamage = false;
 
+		[Header("Party")]
+		[Draw("Max Party Size", Min = 1, Max = 24)] public int MaxPartySize = 12;
+
 		public override void Save(UnityModManager.ModEntry modEntry)
 		{
 			Save(this, modEntry);
