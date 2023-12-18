@@ -2,11 +2,12 @@
 
 using Kingmaker;
 using Kingmaker.Blueprints;
+using Kingmaker.Blueprints.Root.Strings;
 using Kingmaker.Code.UI.MVVM.VM.GroupChanger;
+using Kingmaker.Code.UI.MVVM.VM.Party;
 using Kingmaker.Designers.EventConditionActionSystem.Evaluators;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.Mechanics.Entities;
-using Kingmaker.PubSubSystem.Core;
 
 using Leader;
 
@@ -14,9 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+
 using UniRx;
 
 namespace LeaderTweaks.Mod.Patches
@@ -24,6 +23,7 @@ namespace LeaderTweaks.Mod.Patches
 	[HarmonyPatch]
 	public static class PartySizePatch
 	{
+		//Doesn't seem to be used, since they hardcode 6 everywhere
 		//public override int Kingmaker.Designers.EventConditionActionSystem.Evaluators.MaxPartySize.GetValueInternal()
 		[HarmonyPatch(typeof(MaxPartySize), nameof(MaxPartySize.GetValueInternal)), HarmonyPrefix]
 		private static bool OverrideMaxPartySize(ref int __result)
@@ -38,7 +38,7 @@ namespace LeaderTweaks.Mod.Patches
 		//Action go, Action close, List<UnitReference> lastUnits, List<BlueprintUnit> requiredUnits, bool isCapital = false
 		[HarmonyPatch(typeof(GroupChangerCommonVM), MethodType.Constructor, typeof(Action), typeof(Action), typeof(List<UnitReference>), typeof(List<BlueprintUnit>), typeof(bool))]
 		[HarmonyPrefix]
-		private static bool FixMaxPartySizeLimit(GroupChangerCommonVM __instance, Action go, Action close, List<UnitReference> lastUnits, List<BlueprintUnit> requiredUnits, bool isCapital)
+		private static bool GroupChangerCommonVMMaxPartySizeLimit(GroupChangerCommonVM __instance, Action go, Action close, List<UnitReference> lastUnits, List<BlueprintUnit> requiredUnits, bool isCapital)
 		{
 			if (!Main.IsEnabled || Main.Settings.MaxPartySize == 6) return true;
 
@@ -54,16 +54,9 @@ namespace LeaderTweaks.Mod.Patches
 				var items = __instance.m_LastUnits.Concat(Game.Instance.Player.PartyCharacters).Concat(newUnits)
 					.Select(x => new GroupChangerCharacterVM(x, __instance.MustBeInParty((BaseUnitEntity)x.ToIBaseUnitEntity())));
 
-				/*IEnumerable <GroupChangerCharacterVM> enumerable = from v in __instance.m_LastUnits.Concat(Game.Instance.Player.PartyCharacters).Concat(from v in Game.Instance.Player.RemoteCompanions.Where(__instance.ShouldShowRemote)
-				select UnitReference.FromIAbstractUnitEntity(v)).Distinct()
-				orderby __instance.MustBeInParty((BaseUnitEntity)v.ToIBaseUnitEntity()) descending
-				select v into u
-				select new GroupChangerCharacterVM(u, __instance.MustBeInParty((BaseUnitEntity)u.ToIBaseUnitEntity()));*/
-
 				int num = 0;
 				foreach (var item in items)
 				{
-					Log.Info($"[num] Item: {item}");
 					item.SetIsInParty(num < maxSize);
 					if (num < maxSize)
 					{
@@ -87,6 +80,42 @@ namespace LeaderTweaks.Mod.Patches
 				Log.Exception(ex);
 			}
 			return true;
+		}
+
+		//Fix visible party portraits being limited to 6
+		[HarmonyPatch(typeof(PartyVM), MethodType.Constructor)]
+		[HarmonyPostfix]
+		private static void PartyVMMaxPartySizeLimit(PartyVM __instance)
+		{
+			if (!Main.IsEnabled || Main.Settings.MaxPartySize == 6) return;
+
+			var remainingPortraits = Game.Instance.Player.Party.Count - 6;
+			if(remainingPortraits > 0)
+			{
+				for(int i = 0;i < remainingPortraits; i++)
+				{
+					__instance.CharactersVM.Add(new PartyCharacterVM(__instance.NextPrev, i));
+				}
+			}
+		}
+
+		////UIStrings.Instance.GroupChangerTexts.MaxGroupCountWarning
+		//77487c6f-b606-4bcd-bc6a-018339c06220
+		//Party limit reached!
+
+		//Fix being unable to add more than 6 characters when selecting a party
+		[HarmonyPatch(typeof(GroupChangerVM), nameof(GroupChangerVM.CanMoveCharacterFromRemoteToParty))]
+		[HarmonyPostfix]
+		private static void GroupChangerVMMaxPartySizeLimit(ref string? __result, GroupChangerCommonVM __instance)
+		{
+			if (!Main.IsEnabled || Main.Settings.MaxPartySize == 6) return;
+
+			//Hardcoded to == 6 normally
+
+			if(__result != UIStrings.Instance.GroupChangerTexts.MaxNavigatorsCountWarning && __instance.m_PartyCharacter.Count < Main.Settings.MaxPartySize)
+			{
+				__result = null;
+			}
 		}
 	}
 }

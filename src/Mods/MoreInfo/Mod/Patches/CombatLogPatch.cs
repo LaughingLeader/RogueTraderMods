@@ -1,30 +1,20 @@
 ﻿using HarmonyLib;
 
-using Kingmaker;
 using Kingmaker.Code.UI.MVVM.VM.Tooltip.Templates;
-using Kingmaker.Code.UI.MVVM.VM.Tooltip.Utils;
-using Kingmaker.Controllers.Combat;
 using Kingmaker.Controllers.TurnBased;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.EntitySystem.Stats.Base;
-using Kingmaker.Mechanics.Entities;
-using Kingmaker.RuleSystem.Rules;
 using Kingmaker.TextTools;
 using Kingmaker.UI.Models.Log.CombatLog_ThreadSystem;
 using Kingmaker.UI.Models.Log.CombatLog_ThreadSystem.LogThreads.Combat;
 using Kingmaker.UI.Models.Log.Enums;
-using Kingmaker.UnitLogic;
-using Kingmaker.UnitLogic.Abilities;
 
 using Leader;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 using UnityEngine;
 
