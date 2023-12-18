@@ -19,6 +19,9 @@ namespace LeaderTweaks.Mod
 		[Header("Party")]
 		[Draw("Max Party Size", Min = 1, Max = 24)] public int MaxPartySize = 12;
 
+		[Header("Cheats")]
+		[Draw("Always Succeed in Non-Combat Skill Checks")] public bool AlwaysSucceedNonCombatSkillChecks = false;
+
 		public override void Save(UnityModManager.ModEntry modEntry)
 		{
 			Save(this, modEntry);
