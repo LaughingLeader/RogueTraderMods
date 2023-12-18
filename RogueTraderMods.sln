@@ -11,7 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		src\Directory.build.props = src\Directory.build.props
+		src\Mods\InfoTemplates.build.props = src\Mods\InfoTemplates.build.props
 		src\Mods\Mod.build.props = src\Mods\Mod.build.props
+		Repository.json = Repository.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreInfo", "src\Mods\MoreInfo\MoreInfo.csproj", "{82AD4570-AD9B-4F87-9133-17C344182051}"

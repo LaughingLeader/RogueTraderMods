@@ -1,4 +1,20 @@
 <Project>
+	<Import Project="InfoTemplates.build.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net472</TargetFramework>
+		<LangVersion>9.0</LangVersion>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<UpdateUrl>https://raw.githubusercontent.com/LaughingLeader/RogueTraderMods/master/Repository.json</UpdateUrl>
+		<Repository>https://github.com/LaughingLeader/RogueTraderMods</Repository>
+		<ModImage></ModImage>
+		<SteamWorkshopId></SteamWorkshopId>
+	</PropertyGroup>
+	
 	<ItemGroup>
 		<!-- Compile code from Shared, without making a separate assembly -->
 		<Compile Include="$(SolutionDir)src\Shared\**\*.cs" Visible="false">
@@ -50,6 +66,18 @@
 		</Reference>
 		<Reference Include="Utility.Rounds">
 			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\Utility.Rounds.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="MemoryPack">
+			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\MemoryPack.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UniRx">
+			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\UniRx.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Owlcat.Runtime.UniRx">
+			<HintPath>$(RoguePath)\WH40KRT_Data\Managed\Owlcat.Runtime.UniRx.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
 		<!-- UMM  -->

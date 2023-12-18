@@ -1,0 +1,66 @@
+<Project>
+	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
+
+	<PropertyGroup>
+		<!-- This is what will cause the templates to be transformed when the project is built (default is false) -->
+		<TransformOnBuild>True</TransformOnBuild>
+		<OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
+		<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
+	</PropertyGroup>
+
+	<!-- Auto-generating Info.json / OwlcatModificationManifest.json via templates -->
+	<ItemGroup>
+		<!-- These need to be set so they work when the templates compile on build -->
+		<T4ParameterValues Include="SolutionDir">
+			<Value>$(SolutionDir)</Value>
+			<Visible>false</Visible>
+		</T4ParameterValues>
+		<T4ParameterValues Include="AssemblyName">
+			<Value>$(AssemblyName)</Value>
+			<Visible>false</Visible>
+		</T4ParameterValues>
+		<T4ParameterValues Include="Version">
+			<Value>$(Version)</Value>
+			<Visible>false</Visible>
+		</T4ParameterValues>
+		<T4ParameterValues Include="DisplayName">
+			<Value>$(Product)</Value>
+			<Visible>false</Visible>
+		</T4ParameterValues>
+		<T4ParameterValues Include="Description">
+			<Value>$(Description)</Value>
+			<Visible>false</Visible>
+		</T4ParameterValues>
+		<T4ParameterValues Include="Author">
+			<Value>$(Authors)</Value>
+			<Visible>false</Visible>
+		</T4ParameterValues>
+		<T4ParameterValues Include="UpdateUrl">
+			<Value>$(UpdateUrl)</Value>
+			<Visible>false</Visible>
+		</T4ParameterValues>
+		<T4ParameterValues Include="Repository">
+			<Value>$(Repository)</Value>
+			<Visible>false</Visible>
+		</T4ParameterValues>
+		<T4ParameterValues Include="ModImage">
+			<Value>$(ModImage)</Value>
+			<Visible>false</Visible>
+		</T4ParameterValues>
+		<T4ParameterValues Include="SteamWorkshopId">
+			<Value>$(SteamWorkshopId)</Value>
+			<Visible>false</Visible>
+		</T4ParameterValues>
+
+		<T4Transform Include="Resources\*.tt" />
+	</ItemGroup>
+
+	<!-- Required so the json files are copied after being generated -->
+	<Target Name="IncludeT4GeneratedFiles" AfterTargets="ExecuteTransformations" BeforeTargets="Compile">
+		<ItemGroup>
+			<None Include="Resources\*.json">
+				<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			</None>
+		</ItemGroup>
+	</Target>
+</Project>

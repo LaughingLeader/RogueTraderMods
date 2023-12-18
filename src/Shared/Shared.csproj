@@ -1,5 +1,9 @@
 ﻿<Project Sdk="Microsoft.Build.NoTargets/3.3.0">
 	<PropertyGroup>
+		<TargetFramework>net472</TargetFramework>
+		<LangVersion>9.0</LangVersion>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<RootNamespace>Leader</RootNamespace>
 		<OutputType>Library</OutputType>
 		<DebugSymbols>false</DebugSymbols>
@@ -18,5 +22,11 @@
 		<Reference Include="$(SolutionDir)lib\*.dll">
 			<Private>False</Private>
 		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="Resources\*.tt">
+	    <Generator>None</Generator>
+	  </None>
 	</ItemGroup>
 </Project>

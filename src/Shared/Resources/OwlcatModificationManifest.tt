@@ -1,0 +1,14 @@
+﻿<#@ include file="ProjectVariables.tt" #>
+<#@ output extension=".json" #>
+{
+  "UniqueName": "<#= AssemblyName #>",
+  "Version": "<#= Version #>",
+  "DisplayName": "<#= DisplayName #>",
+  "Description": "<#= Description #>",
+  "Author": "<#= Author #>",
+  "ImageName": "<#= ModImage #>",
+  "WorkshopId": "<#= SteamWorkshopId #>",
+  "Repository": "<#= Repository #>",
+  "HomePage": "",
+  "Dependencies": []
+}

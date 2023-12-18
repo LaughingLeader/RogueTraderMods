@@ -3,18 +3,22 @@
 	<PropertyGroup>
 		<RootNamespace>LeaderTweaks</RootNamespace>
 		<AssemblyName>LeaderTweaks</AssemblyName>
-		<Product>LeaderTweaks</Product>
 		<Version>1.0.0</Version>
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 		<FileVersion>1.0.0.0</FileVersion>
+		<Product>LeaderTweaks</Product>
 		<Description>Adds various quality-of-life options</Description>
 		<Authors>LaughingLeader</Authors>
 		<Company>LaughingLeader</Company>
 		<Copyright>Copyright © LaughingLeader 2023</Copyright>
 	</PropertyGroup>
+
 	<ItemGroup>
+		<!-- T4 Template Service -->
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+		<None Include="Resources\*.tt" />
 		<None Include="Resources\*.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<DependentUpon>%(Filename).tt</DependentUpon>
 		</None>
 	</ItemGroup>
 </Project>

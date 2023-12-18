@@ -1,0 +1,14 @@
+﻿<#@ include file="ProjectVariables.tt" #>
+<#@ output extension=".json" #>
+{
+  "Id": "<#= AssemblyName #>",
+  "DisplayName": "<#= DisplayName #>",
+  "Author": "<#= Author #>",
+  "Version": "<#= Version #>",
+  "ManagerVersion": "0.23.0",
+  "Requirements": [],
+  "AssemblyName": "<#= AssemblyName #>.dll",
+  "EntryMethod": "Leader.Main.Load",
+  "HomePage": "",
+  "Repository": "<#= UpdateUrl #>"
+}

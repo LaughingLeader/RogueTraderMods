@@ -1,0 +1,1 @@
+﻿<#@ include file="$(SolutionDir)\src\Shared\Resources\OwlcatModificationManifest.tt" #>

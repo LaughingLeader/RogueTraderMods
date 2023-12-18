@@ -1,0 +1,12 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#
+	string AssemblyName = Host.ResolveParameterValue("-", "-", "AssemblyName");
+	string DisplayName = Host.ResolveParameterValue("-", "-", "DisplayName");
+	string Description = Host.ResolveParameterValue("-", "-", "Description");
+	string Author = Host.ResolveParameterValue("-", "-", "Author");
+	string Version = Host.ResolveParameterValue("-", "-", "Version");
+	string UpdateUrl = Host.ResolveParameterValue("-", "-", "UpdateUrl");
+	string Repository = Host.ResolveParameterValue("-", "-", "Repository");
+	string ModImage = Host.ResolveParameterValue("-", "-", "ModImage");
+	string SteamWorkshopId = Host.ResolveParameterValue("-", "-", "SteamWorkshopId");
+#>
