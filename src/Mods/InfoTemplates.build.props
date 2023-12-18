@@ -1,7 +1,7 @@
 <Project>
 	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
 		<!-- This is what will cause the templates to be transformed when the project is built (default is false) -->
 		<TransformOnBuild>True</TransformOnBuild>
 		<OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
