@@ -399,3 +399,5 @@ FodyWeavers.xsd
 
 # Custom
 lib
+Info.json
+OwlcatModificationManifest.json
