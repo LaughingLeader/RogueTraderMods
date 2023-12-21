@@ -34,7 +34,7 @@ namespace LeaderTweaks.Mod.Patches
 
 		private static bool Prefix(ref bool __result, BaseUnitEntity unit, StatType statType, int difficultyClass)
 		{
-			if (!Main.IsEnabled || !Main.Settings.AlwaysSucceedNonCombatSkillChecks) return true;
+			if (!Main.IsEnabled || !Main.Settings.RollChecks.IsEnabled) return true;
 
 			if (NonCombatRollsPatch.CanAlterRoll(unit))
 			{
@@ -59,7 +59,7 @@ namespace LeaderTweaks.Mod.Patches
 		[HarmonyPrefix]
 		private static bool RulePerformSkillCheckOverride(RulePerformPartySkillCheck __instance, ref RulePerformSkillCheck __result)
 		{
-			if (!Main.IsEnabled || !Main.Settings.AlwaysSucceedNonCombatSkillChecks) return true;
+			if (!Main.IsEnabled || !Main.Settings.RollChecks.IsEnabled) return true;
 
 			if (__instance.m_SourceCheck == null && CanAlterRoll(__instance.InitiatorUnit))
 			{
@@ -79,15 +79,21 @@ namespace LeaderTweaks.Mod.Patches
 		[HarmonyPatch(typeof(RuleRollDice), nameof(RuleRollDice.Roll)), HarmonyPostfix]
 		private static void RuleRollDiceOnRoll(RuleRollDice __instance)
 		{
-			if (!Main.IsEnabled || !Main.Settings.AlwaysSucceedNonCombatSkillChecks) return;
+			if (!Main.IsEnabled || (!Main.Settings.RollChecks.IsEnabled)) return;
 
 			if (Rulebook.CurrentContext.Current is RuleRollChance chanceRoll)
 			{
-				if (chanceRoll.RollTypeValue == RollType.Skill && CanAlterRoll(__instance.InitiatorUnit))
+				if (CanAlterRoll(__instance.InitiatorUnit))
 				{
-					if(chanceRoll.Chance > 0)
+					if (chanceRoll.Chance > 0)
 					{
-						__instance.m_Result = chanceRoll.Chance;
+						var alterAttributes = Main.Settings.RollChecks.NonCombatAttributeChecks && chanceRoll.RollTypeValue == RollType.Attribute;
+						var alterSkills = Main.Settings.RollChecks.NonCombatSkillChecks && chanceRoll.RollTypeValue == RollType.Skill;
+
+						if (alterAttributes || alterSkills)
+						{
+							__instance.m_Result = 1;
+						}
 					}
 #if DEBUG
 					else
@@ -103,7 +109,7 @@ namespace LeaderTweaks.Mod.Patches
 		[HarmonyPrefix]
 		private static void GameHelperTriggerSkillCheckOverride(RulePerformSkillCheck skillCheck, MechanicsContext context, bool allowPartyCheckInCamp)
 		{
-			if (!Main.IsEnabled || !Main.Settings.AlwaysSucceedNonCombatSkillChecks) return;
+			if (!Main.IsEnabled || !Main.Settings.RollChecks.IsEnabled) return;
 
 			if (CanAlterRoll(skillCheck.InitiatorUnit))
 			{
