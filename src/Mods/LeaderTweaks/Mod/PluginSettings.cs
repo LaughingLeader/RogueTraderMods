@@ -21,8 +21,8 @@ namespace LeaderTweaks.Mod
 		public int MaxPartySize = 12;
 
 		[Header("Cheats")]
-		[Draw("Always Succeed in Non-Combat Skill Checks", Tooltip = "Allows always succeeding in skill checks out of combat, where otherwise you might have a 0% chance")]
-		public bool AlwaysSucceedNonCombatSkillChecks = false;
+		[Draw("Non-Combat Roll Checks", Collapsible = true)]
+		public RollCheckSettings RollChecks = new();
 
 		[Draw("Fixes", Collapsible = true)]
 		public FixSettings Fixes = new();
@@ -43,5 +43,15 @@ namespace LeaderTweaks.Mod
 	{
 		[Draw("Prevent Pain Channeling Self Damage", Tooltip = "Fix damaging yourself with Pain Channeling when killing the last nearby enemy")]
 		public bool DisablePainChannelingSelfDamage = true;
+	}
+
+	public class RollCheckSettings
+	{
+		[Draw("Always Pass Skill Checks", Tooltip = "Allows always succeeding in skill checks out of combat, where otherwise you might have a 0% chance")]
+		public bool NonCombatSkillChecks = false;
+		[Draw("Always Pass Attribute Checks", Tooltip = "Allows always succeeding in attribute checks out of combat, where otherwise you might have a 0% chance")]
+		public bool NonCombatAttributeChecks = false;
+
+		public bool IsEnabled => NonCombatAttributeChecks || NonCombatSkillChecks;
 	}
 }
