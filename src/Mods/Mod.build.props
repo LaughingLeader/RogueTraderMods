@@ -6,6 +6,8 @@
 		<LangVersion>9.0</LangVersion>
 		<Nullable>enable</Nullable>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+		<!-- Prevent VS from automatically adding files like the generated info json files, tt files etc -->
+		<EnableDefaultNoneItems>false</EnableDefaultNoneItems>
 	</PropertyGroup>
 	
 	<PropertyGroup>

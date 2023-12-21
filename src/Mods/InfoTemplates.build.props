@@ -52,15 +52,16 @@
 			<Visible>false</Visible>
 		</T4ParameterValues>
 
-		<T4Transform Include="Resources\*.tt" />
+		<T4Transform Include="Resources/*.tt" />
+		<None Include="Resources/*.tt" CopyToOutputDirectory="Never" />
+		<None Include="Resources/*.json" CopyToOutputDirectory="Never" />
 	</ItemGroup>
 
 	<!-- Required so the json files are copied after being generated -->
-	<Target Name="IncludeT4GeneratedFiles" AfterTargets="ExecuteTransformations" BeforeTargets="Compile">
+	<Target Name="CopyInfoFiles" AfterTargets="AfterBuild">
 		<ItemGroup>
-			<None Include="Resources\*.json">
-				<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-			</None>
+			<InfoFiles Include="Resources/*.json" />
 		</ItemGroup>
+		<Copy SourceFiles="@(InfoFiles)" DestinationFolder="$(OutputPath)" />
 	</Target>
 </Project>
