@@ -141,7 +141,7 @@
 		<Publicise InputAssemblies="@(PubliciseInputAssemblies)" OutputPath="$(SolutionDir)lib/" PubliciseCompilerGenerated="true" />
 	</Target>
 
-	<Target Name="CopyToModsFolder" AfterTargets="PostBuildEvent">
+	<Target Name="CopyToModsFolder" AfterTargets="PostBuildEvent" Condition="'$(Configuration)'=='Debug'">
 		<ItemGroup>
 			<FilesToMove Include="$(OutputPath)*.dll;$(OutputPath)*.pdb;$(OutputPath)Resources\*.json" />
 		</ItemGroup>
