@@ -3,9 +3,7 @@
 using Kingmaker;
 
 using Leader;
-
-using LeaderTweaks.Mod.Patches;
-
+using LeaderTweaks.Mod.Patches.QOL;
 using System.Linq;
 
 using UnityEngine;
@@ -18,7 +16,7 @@ namespace LeaderTweaks.Mod
 {
 
 #if DEBUG
-	[EnableReloading]
+    [EnableReloading]
 #endif
     public class Plugin : BasePlugin
     {
@@ -44,20 +42,20 @@ namespace LeaderTweaks.Mod
 		private void OnGUI(UnityModManager.ModEntry modEntry)
 		{
 			Settings.Draw(modEntry);
-			if(GUILayout.Button("Apply Buffs", GUILayout.ExpandWidth(false)))
+			/*if(GUILayout.Button("Apply Buffs", GUILayout.ExpandWidth(false)))
 			{
 				foreach (var unit in Game.Instance.Player.Party)
 				{
-					BuffTweaks.ApplyCombatStartBuffs(unit);
+					RelentlessBlaze.ApplyCombatStartBuffs(unit);
 				}
 			}
 			if(GUILayout.Button("Remove Buffs", GUILayout.ExpandWidth(false)))
 			{
 				foreach(var unit in Game.Instance.Player.Party)
 				{
-					BuffTweaks.RemoveCombatStartBuffs(unit);
+					RelentlessBlaze.RemoveCombatStartBuffs(unit);
 				}
-			}
+			}*/
 		}
 
 		private void OnSaveGUI(UnityModManager.ModEntry modEntry)
