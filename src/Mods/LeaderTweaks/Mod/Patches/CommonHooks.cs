@@ -30,6 +30,28 @@ namespace LeaderTweaks.Mod.Patches
 	[HarmonyPatch]
 	public static class CommonHooks
 	{
+		[HarmonyPatch(typeof(TurnController), nameof(TurnController.StartUnitTurn)), HarmonyPostfix]
+		private static void OnStartUnitTurn(MechanicEntity entity)
+		{
+			if (!Main.IsEnabled) return;
+
+			if(!Game.Instance.IsSpaceCombat)
+			{
+				if (Main.Settings.Talents.EternalWarriorAlwaysProvideFullCover) EternalWarrior.OnTurnStarted(entity);
+			}
+		}
+
+		[HarmonyPatch(typeof(TurnController), nameof(TurnController.EndUnitTurn)), HarmonyPostfix]
+		private static void OnEndUnitTurn(MechanicEntity unit)
+		{
+			if (!Main.IsEnabled) return;
+
+			if (!Game.Instance.IsSpaceCombat)
+			{
+				if (Main.Settings.Talents.EternalWarriorAlwaysProvideFullCover) EternalWarrior.OnTurnEnded(unit);
+			}
+		}
+
 		[HarmonyPatch(typeof(TurnController), nameof(TurnController.TryRollInitiative)), HarmonyPostfix]
 		private static void OnCombatStarted()
 		{
@@ -39,6 +61,14 @@ namespace LeaderTweaks.Mod.Patches
 			{
 				if (Main.Settings.Talents.AutoRelentlessBlaze) RelentlessBlaze.OnCombatStarted();
 			}
+		}
+
+		[HarmonyPatch(typeof(TurnController), nameof(TurnController.ExitTb)), HarmonyPostfix]
+		private static void OnCombatEnded()
+		{
+			if (!Main.IsEnabled) return;
+
+			if (Main.Settings.Talents.EternalWarriorAlwaysProvideFullCover) EternalWarrior.OnCombatEnded();
 		}
 
 		/* This is a prefix so log spam is avoided, since the original function sends out an event via Rulebook.Trigger(new RuleCalculateDamage), which reports the previous damage.

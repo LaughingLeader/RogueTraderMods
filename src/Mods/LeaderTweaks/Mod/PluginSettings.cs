@@ -52,6 +52,11 @@ namespace LeaderTweaks.Mod
 
 		[Draw("Pain Channeling: Prevent Self Damage", Tooltip = "Fix damaging yourself with Pain Channeling when killing the last nearby enemy")]
 		public bool DisablePainChannelingSelfDamage = true;
+
+#if DEBUG
+		[Draw("Eternal Warrior (Ulfar): Provide Full Cover When Turn Ends", Tooltip = "This will make Ulfar count as full cover in combat whenever his turn ends")]
+#endif
+		public bool EternalWarriorAlwaysProvideFullCover = false;
 	}
 
 	public class RollCheckSettings
