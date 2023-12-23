@@ -5,7 +5,7 @@
 		<DebugType>none</DebugType>
 		<Optimize>True</Optimize>
 		<BaseIntermediateOutputPath>$(SolutionDir)bin\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
-		<OutputPath>$(SolutionDir)\bin\$(Configuration)\$(MSBuildProjectName)\</OutputPath>
+		<OutputPath>$(SolutionDir)bin\$(Configuration)\$(MSBuildProjectName)\</OutputPath>
     </PropertyGroup>
 	
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -20,4 +20,8 @@
 			<Private>False</Private>
 		</Reference>-->
 	</ItemGroup>
+
+	<Target Name="DeleteExtraFiles" AfterTargets="PostBuildEvent">
+		<RemoveDir Directories="$(SolutionDir)bin\$(Configuration)\Shared" />
+	</Target>
 </Project>
