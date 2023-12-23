@@ -153,4 +153,8 @@
               DestinationFolder="$(UserProfile)\AppData\LocalLow\Owlcat Games\Warhammer 40000 Rogue Trader\UnityModManager\$(MSBuildProjectName)"
               OverwriteReadOnlyFiles="true" />
 	</Target>
+
+	<Target Name="CreateReleaseZip" AfterTargets="PostBuildEvent" Condition="'$(Configuration)'=='Release'">
+		<Exec Command="python zip.py -v $(Version) -d &quot;$(OutputPath)&quot;" ConsoleToMsBuild="True" WorkingDirectory="$(SolutionDir)" />
+	</Target>
 </Project>
