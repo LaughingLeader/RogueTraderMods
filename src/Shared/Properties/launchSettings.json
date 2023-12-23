@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Run Game": {
+      "commandName": "Executable",
+      "executablePath": "%RoguePath%\\WH40KRT.exe",
+      "workingDirectory": "%RoguePath%",
+      "commandLineArgs": ""
+    }
+  }
+}
