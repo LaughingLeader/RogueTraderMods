@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{C76010DE-B04E-4162-B2FB-1CC22615903D}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.gitignore = .gitignore
 		src\Directory.build.props = src\Directory.build.props
 		src\Mods\InfoTemplates.build.props = src\Mods\InfoTemplates.build.props
 		src\Mods\Mod.build.props = src\Mods\Mod.build.props
@@ -21,6 +22,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeaderTweaks", "src\Mods\LeaderTweaks\LeaderTweaks.csproj", "{EFAE2E4C-98E4-4BDA-A3D5-C210200E7368}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{B121DD5B-2B68-4119-A5CB-FBB7063AC8C4}"
+	ProjectSection(SolutionItems) = preProject
+		zip.py = zip.py
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

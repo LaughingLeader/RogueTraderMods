@@ -3,12 +3,12 @@
 		{
 			"Id": "LeaderTweaks",
 			"Version": "1.0.0",
-			"DownloadUrl": "https://github.com/LaughingLeader/RogueTraderMods/releases/download/1.0.0/LeaderTweaks.zip"
+			"DownloadUrl": "https://github.com/LaughingLeader/RogueTraderMods/releases/download/v1.0.0/LeaderTweaks.zip"
 		},
 		{
 			"Id": "MoreInfo",
 			"Version": "1.0.0",
-			"DownloadUrl": "https://github.com/LaughingLeader/RogueTraderMods/releases/download/1.0.0/MoreInfo.zip"
+			"DownloadUrl": "https://github.com/LaughingLeader/RogueTraderMods/releases/download/v1.0.0/MoreInfo.zip"
 		}
 	]
 }
