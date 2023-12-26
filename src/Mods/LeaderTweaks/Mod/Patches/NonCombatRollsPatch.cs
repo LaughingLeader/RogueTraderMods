@@ -79,7 +79,7 @@ namespace LeaderTweaks.Mod.Patches
 		[HarmonyPatch(typeof(RuleRollDice), nameof(RuleRollDice.Roll)), HarmonyPostfix]
 		private static void RuleRollDiceOnRoll(RuleRollDice __instance)
 		{
-			if (!Main.IsEnabled || (!Main.Settings.RollChecks.IsEnabled)) return;
+			if (!Main.IsEnabled || !Main.Settings.RollChecks.IsEnabled) return;
 
 			if (Rulebook.CurrentContext.Current is RuleRollChance chanceRoll)
 			{
