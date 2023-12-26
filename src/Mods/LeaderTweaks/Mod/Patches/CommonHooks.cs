@@ -31,22 +31,22 @@ namespace LeaderTweaks.Mod.Patches
 	public static class CommonHooks
 	{
 		[HarmonyPatch(typeof(TurnController), nameof(TurnController.StartUnitTurn)), HarmonyPostfix]
-		private static void OnStartUnitTurn(MechanicEntity entity)
+		private static void OnStartUnitTurn(MechanicEntity entity, TurnController __instance)
 		{
-			if (!Main.IsEnabled) return;
+			if (!Main.IsEnabled || entity == null) return;
 
-			if(!Game.Instance.IsSpaceCombat)
+			if(!Game.Instance.IsSpaceCombat && !__instance.IsPreparationTurn)
 			{
 				if (Main.Settings.Talents.EternalWarriorAlwaysProvideFullCover) EternalWarrior.OnTurnStarted(entity);
 			}
 		}
 
 		[HarmonyPatch(typeof(TurnController), nameof(TurnController.EndUnitTurn)), HarmonyPostfix]
-		private static void OnEndUnitTurn(MechanicEntity unit)
+		private static void OnEndUnitTurn(MechanicEntity unit, TurnController __instance)
 		{
-			if (!Main.IsEnabled) return;
+			if (!Main.IsEnabled || unit == null) return;
 
-			if (!Game.Instance.IsSpaceCombat)
+			if (!Game.Instance.IsSpaceCombat && !__instance.IsPreparationTurn)
 			{
 				if (Main.Settings.Talents.EternalWarriorAlwaysProvideFullCover) EternalWarrior.OnTurnEnded(unit);
 			}

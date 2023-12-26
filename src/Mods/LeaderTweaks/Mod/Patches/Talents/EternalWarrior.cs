@@ -7,6 +7,8 @@ using Kingmaker.UnitLogic.Enums;
 using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic.Progression.Features;
 
+using Leader;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +31,7 @@ namespace LeaderTweaks.Mod.Patches.Talents
 		{
 			get
 			{
-				if(_eternalWarriorFeature == null ) _eternalWarriorFeature = Utilities.GetBlueprintByGuid<BlueprintFeature>(EternalWarriorFeatureGuid);
+				_eternalWarriorFeature ??= Utilities.GetBlueprintByGuid<BlueprintFeature>(EternalWarriorFeatureGuid);
 				return _eternalWarriorFeature;
 			}
 		}
@@ -39,7 +41,7 @@ namespace LeaderTweaks.Mod.Patches.Talents
 		{
 			get
 			{
-				if (_eternalWarriorWorkBuff == null) _eternalWarriorWorkBuff = Utilities.GetBlueprintByGuid<BlueprintBuff>(EternalWarriorWorkBuffGuid);
+				_eternalWarriorWorkBuff ??= Utilities.GetBlueprintByGuid<BlueprintBuff>(EternalWarriorWorkBuffGuid);
 				return _eternalWarriorWorkBuff;
 			}
 		}
@@ -54,7 +56,7 @@ namespace LeaderTweaks.Mod.Patches.Talents
 
 		public static void OnTurnEnded(MechanicEntity unit)
 		{
-			if (unit.IsInCombat && !unit.IsDeadOrUnconscious && unit.Facts.Contains(EternalWarriorFeature))
+			if (unit.IsInCombat && !unit.IsDeadOrUnconscious && unit.Facts.Contains(EternalWarriorFeature) && !unit.Buffs.Contains(EternalWarriorWorkBuff))
 			{
 				unit.GetMechanicFeature(MechanicsFeatureType.ProvidesFullCover).Retain();
 			}
