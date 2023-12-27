@@ -19,6 +19,10 @@ namespace LeaderTweaks.Mod
 		[Header("Tweaks")]
 		[Draw("Max Party Size", Tooltip="This will expand the max party size in the recruitment screen as well", Min = 1, Max = 24)]
 		public int MaxPartySize = 10;
+		[Draw("Skip Intro", Tooltip="Automatically skip the intro splash screens")]
+		public bool SkipIntro = true;
+		[Draw("Fix Continue Button", Tooltip="Makes the Continue button in the main menu load your last save\nThis button is normally disabled when loading the game for the first time")]
+		public bool FixContinueButton = true;
 
 		[Draw("Talents", Collapsible = true)]
 		public TalentSettings Talents = new();
