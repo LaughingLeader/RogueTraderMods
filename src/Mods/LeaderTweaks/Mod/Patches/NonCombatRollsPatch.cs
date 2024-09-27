@@ -26,7 +26,7 @@ namespace LeaderTweaks.Mod.Patches
 		//public static bool CheckSkillResult(BaseUnitEntity unit, StatType statType, int difficultyClass, out bool isCriticalFail, RulePerformSkillCheck.VoicingType voice = RulePerformSkillCheck.VoicingType.All, bool? ensureSuccess = null)
 		//public static bool CheckSkillResult(BaseUnitEntity unit, StatType statType, int difficultyClass, RulePerformSkillCheck.VoicingType voice = RulePerformSkillCheck.VoicingType.All, bool? ensureSuccess = null)
 
-		public static IEnumerable<MethodBase> TargetMethods()
+		private static IEnumerable<MethodBase> TargetMethods()
 		{
 			var name = nameof(GameHelper.CheckSkillResult);
 			return AccessTools.GetDeclaredMethods(typeof(GameHelper)).Where(x => x.Name.Equals(name));
@@ -115,7 +115,7 @@ namespace LeaderTweaks.Mod.Patches
 			{
 				if (skillCheck.Initiator is MechanicEntity entity && GetStatVal(entity, skillCheck.StatType) + skillCheck.Difficulty <= 0)
 				{
-					//Override BaseDifficulty by setting to backing field
+					//Override BaseDifficulty by setting the backing field
 					Traverse.Create(skillCheck).Field("<BaseDifficulty>k__BackingField")?.SetValue(0);
 				}
 			}

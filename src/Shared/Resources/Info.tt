@@ -9,6 +9,6 @@
   "Requirements": [],
   "AssemblyName": "<#= AssemblyName #>.dll",
   "EntryMethod": "Leader.Main.Load",
-  "HomePage": "",
+  "HomePage": "https://github.com/LaughingLeader/RogueTraderMods",
   "Repository": "<#= UpdateUrl #>"
 }

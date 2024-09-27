@@ -9,6 +9,6 @@
   "ImageName": "<#= ModImage #>",
   "WorkshopId": "<#= SteamWorkshopId #>",
   "Repository": "<#= Repository #>",
-  "HomePage": "",
+  "HomePage": "https://github.com/LaughingLeader/RogueTraderMods",
   "Dependencies": []
 }
